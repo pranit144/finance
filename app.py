@@ -28,10 +28,13 @@ async def serve_portfolio():
     """Serve the portfolio page."""
     return FileResponse("frontend/portfolio.html")
 
+# Helper for uvicorn to find the app
+app = backend_app
+
 if __name__ == "__main__":
     port = int(os.getenv("PORT", 7860))
     uvicorn.run(
-        backend_app,
+        app,
         host="0.0.0.0",
         port=port,
         log_level="info"
