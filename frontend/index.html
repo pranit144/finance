@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>STOCKLYZE - Road to Financial Freedom</title>
+  
+  <!-- Google Fonts - Inter for Professional Fintech Look -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    /* ============================================
+       DESIGN SYSTEM - STOCKLYZE
+       Visual Personality: Clean • Trustworthy • Data-Smart • Premium
+       ============================================ */
+    
+    :root {
+      /* Color System - Professional Fintech Palette */
+      --primary-teal: #00b4a6;
+      --primary-teal-dark: #008c82;
+      --primary-teal-light: #00d4c3;
+      
+      /* Backgrounds */
+      --bg-primary: #fafbfc;
+      --bg-secondary: #f5f7fa;
+      --bg-white: #ffffff;
+      
+      /* Text Colors */
+      --text-primary: #1a2332;
+      --text-secondary: #6b7280;
+      --text-muted: #9ca3af;
+      
+      /* Supporting Colors */
+      --success: #10b981;
+      --success-light: #d1fae5;
+      --warning: #f59e0b;
+      --warning-light: #fef3c7;
+      --error: #ef4444;
+      --error-light: #fee2e2;
+      
+      /* Shadows - Subtle & Professional */
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
+      --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+      --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.12);
+      --shadow-glow: 0 0 0 3px rgba(0, 180, 166, 0.1);
+      
+      /* Spacing System - 8px Base */
+      --space-1: 8px;
+      --space-2: 16px;
+      --space-3: 24px;
+      --space-4: 32px;
+      --space-6: 48px;
+      --space-8: 64px;
+      
+      /* Border Radius */
+      --radius-sm: 8px;
+      --radius-md: 16px;
+      --radius-lg: 20px;
+      --radius-full: 9999px;
+      
+      /* Typography */
+      --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-family);
+      background: var(--bg-primary);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Subtle Gradient Blobs - Calm, Not Loud */
+    .gradient-blob {
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(0, 180, 166, 0.08) 0%, rgba(0, 180, 166, 0.04) 50%, transparent 70%);
+      border-radius: 50%;
+      filter: blur(60px);
+      animation: float 12s ease-in-out infinite;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .gradient-blob:nth-child(1) {
+      top: -200px;
+      left: -200px;
+    }
+
+    .gradient-blob:nth-child(2) {
+      bottom: -200px;
+      right: -200px;
+      animation-delay: 6s;
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translate(0, 0) scale(1);
+      }
+      50% {
+        transform: translate(40px, 40px) scale(1.05);
+      }
+    }
+
+    /* Main Container */
+    .container {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 1200px;
+      padding: var(--space-4);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-8);
+    }
+
+    /* Left Side - Branding */
+    .brand-section {
+      flex: 1;
+      max-width: 520px;
+    }
+
+    .brand-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: var(--space-6);
+    }
+
+    .brand-icon {
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, var(--primary-teal) 0%, var(--primary-teal-dark) 100%);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      box-shadow: var(--shadow-md);
+    }
+
+    .brand-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    .main-logo {
+      font-size: 64px;
+      font-weight: 800;
+      color: var(--text-primary);
+      margin-bottom: var(--space-2);
+      letter-spacing: -2px;
+      line-height: 1;
+    }
+
+    .main-tagline {
+      font-size: 24px;
+      color: var(--text-secondary);
+      font-weight: 500;
+      line-height: 1.4;
+      margin-bottom: var(--space-3);
+    }
+
+    .tagline-highlight {
+      color: var(--primary-teal);
+      font-weight: 700;
+    }
+
+    .security-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-1);
+      padding: var(--space-1) var(--space-2);
+      background: var(--success-light);
+      border-radius: var(--radius-full);
+      color: var(--success);
+      font-size: 13px;
+      font-weight: 600;
+      margin-top: var(--space-3);
+    }
+
+    /* Right Side - Login Form */
+    .login-container {
+      flex: 0 0 440px;
+      background: var(--bg-white);
+      border-radius: var(--radius-lg);
+      padding: var(--space-6) var(--space-4);
+      box-shadow: var(--shadow-lg);
+      backdrop-filter: blur(10px);
+    }
+
+    .login-header {
+      margin-bottom: var(--space-4);
+    }
+
+    .login-title {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: var(--space-1);
+    }
+
+    .login-subtitle {
+      font-size: 14px;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    /* Form Styles */
+    .form-group {
+      margin-bottom: var(--space-3);
+    }
+
+    .form-label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: var(--space-1);
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 14px var(--space-2);
+      font-size: 15px;
+      font-weight: 500;
+      border: 2px solid #e5e7eb;
+      background: var(--bg-secondary);
+      border-radius: var(--radius-sm);
+      color: var(--text-primary);
+      outline: none;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      font-family: var(--font-family);
+    }
+
+    .form-input::placeholder {
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    .form-input:focus {
+      border-color: var(--primary-teal);
+      background: var(--bg-white);
+      box-shadow: var(--shadow-glow);
+    }
+
+    .form-input:hover:not(:focus) {
+      border-color: #d1d5db;
+    }
+
+    /* Input States */
+    .form-input.error {
+      border-color: var(--error);
+      background: var(--error-light);
+    }
+
+    .form-input.success {
+      border-color: var(--success);
+      background: var(--success-light);
+    }
+
+    /* Password Toggle */
+    .password-wrapper {
+      position: relative;
+    }
+
+    .password-toggle {
+      position: absolute;
+      right: var(--space-2);
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 18px;
+      padding: var(--space-1);
+      transition: color 0.2s;
+    }
+
+    .password-toggle:hover {
+      color: var(--text-secondary);
+    }
+
+    /* Submit Button */
+    .btn-submit {
+      width: 100%;
+      padding: 14px var(--space-3);
+      font-size: 15px;
+      font-weight: 700;
+      color: white;
+      background: linear-gradient(135deg, var(--primary-teal) 0%, var(--primary-teal-dark) 100%);
+      border: none;
+      border-radius: var(--radius-full);
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: var(--shadow-md);
+      margin-top: var(--space-2);
+      font-family: var(--font-family);
+    }
+
+    .btn-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 180, 166, 0.25);
+    }
+
+    .btn-submit:active {
+      transform: translateY(0);
+    }
+
+    .btn-submit:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* Role Selector */
+    .role-selector {
+      display: flex;
+      gap: var(--space-2);
+    }
+
+    .role-option {
+      flex: 1;
+    }
+
+    .role-option input[type="radio"] {
+      display: none;
+    }
+
+    .role-label {
+      display: block;
+      padding: 12px var(--space-2);
+      text-align: center;
+      border: 2px solid #e5e7eb;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--text-secondary);
+      transition: all 0.2s;
+      background: var(--bg-secondary);
+    }
+
+    .role-option input[type="radio"]:checked + .role-label {
+      border-color: var(--primary-teal);
+      background: rgba(0, 180, 166, 0.08);
+      color: var(--primary-teal);
+    }
+
+    .role-label:hover {
+      border-color: var(--primary-teal);
+    }
+
+    /* Toggle Auth Mode */
+    .auth-toggle {
+      text-align: center;
+      margin-top: var(--space-3);
+      font-size: 14px;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    .auth-toggle-link {
+      color: var(--primary-teal);
+      font-weight: 700;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .auth-toggle-link:hover {
+      color: var(--primary-teal-dark);
+      text-decoration: underline;
+    }
+
+    /* Alert Messages */
+    .alert {
+      padding: 12px var(--space-2);
+      border-radius: var(--radius-sm);
+      margin-bottom: var(--space-3);
+      font-size: 14px;
+      font-weight: 600;
+      animation: slideDown 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      align-items: center;
+      gap: var(--space-1);
+    }
+
+    .alert-error {
+      background: var(--error-light);
+      color: var(--error);
+      border: 2px solid var(--error);
+    }
+
+    .alert-success {
+      background: var(--success-light);
+      color: var(--success);
+      border: 2px solid var(--success);
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 968px) {
+      .container {
+        flex-direction: column;
+        gap: var(--space-6);
+      }
+
+      .brand-section {
+        text-align: center;
+      }
+
+      .main-logo {
+        font-size: 48px;
+      }
+
+      .main-tagline {
+        font-size: 20px;
+      }
+
+      .login-container {
+        flex: 1;
+        width: 100%;
+        max-width: 440px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: var(--space-2);
+      }
+
+      .login-container {
+        padding: var(--space-4) var(--space-3);
+      }
+
+      .main-logo {
+        font-size: 40px;
+      }
+
+      .main-tagline {
+        font-size: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Subtle Gradient Blobs -->
+  <div class="gradient-blob"></div>
+  <div class="gradient-blob"></div>
+
+  <div class="container">
+    <!-- Left Side - Branding -->
+    <div class="brand-section">
+      <div class="brand-header">
+        <div class="brand-icon">✦</div>
+        <div class="brand-title">Road to Financial Freedom</div>
+      </div>
+      
+      <h1 class="main-logo">STOCKLYZE</h1>
+      <p class="main-tagline">
+        Advanced <span class="tagline-highlight">Portfolio Analytics</span>
+      </p>
+      
+      <div class="security-badge">
+        🔒 Bank-level security
+      </div>
+    </div>
+
+    <!-- Right Side - Login Form -->
+    <div class="login-container">
+      <div class="login-header">
+        <h2 class="login-title" id="auth-title">Welcome back</h2>
+        <p class="login-subtitle" id="auth-subtitle">Sign in to access your portfolio</p>
+      </div>
+
+      <!-- Alert Container -->
+      <div id="alert-container"></div>
+
+      <!-- Auth Form -->
+      <form id="auth-form">
+        <!-- Name (Signup only) -->
+        <div class="form-group hidden" id="name-group">
+          <label for="name" class="form-label">Full Name</label>
+          <input 
+            type="text" 
+            id="name" 
+            class="form-input" 
+            placeholder="Enter your full name"
+            autocomplete="name"
+          >
+        </div>
+
+        <!-- Email -->
+        <div class="form-group">
+          <label for="email" class="form-label">Email Address</label>
+          <input 
+            type="email" 
+            id="email" 
+            class="form-input" 
+            placeholder="you@example.com"
+            required
+            autocomplete="email"
+          >
+        </div>
+
+        <!-- Password -->
+        <div class="form-group">
+          <label for="password" class="form-label">Password</label>
+          <div class="password-wrapper">
+            <input 
+              type="password" 
+              id="password" 
+              class="form-input" 
+              placeholder="Enter your password"
+              required
+              autocomplete="current-password"
+              minlength="8"
+            >
+            <button type="button" class="password-toggle" onclick="togglePassword()">
+              👁️
+            </button>
+          </div>
+        </div>
+
+        <!-- Role Selector (Signup only) -->
+        <div class="form-group hidden" id="role-group">
+          <label class="form-label">Account Type</label>
+          <div class="role-selector">
+            <div class="role-option">
+              <input type="radio" id="role-staff" name="role" value="STAFF" checked>
+              <label for="role-staff" class="role-label">Staff</label>
+            </div>
+            <div class="role-option">
+              <input type="radio" id="role-admin" name="role" value="ADMIN">
+              <label for="role-admin" class="role-label">Admin</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn-submit" id="submit-btn">
+          Sign In
+        </button>
+      </form>
+
+      <!-- Toggle Auth Mode -->
+      <div class="auth-toggle">
+        <span id="toggle-text">Don't have an account? </span>
+        <a href="#" class="auth-toggle-link" id="toggle-auth">Create one</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const API_BASE_URL = 'http://localhost:8000';
+    const TOKEN_KEY = 'stock_analysis_token';
+    const USER_KEY = 'stock_analysis_user';
+    let authMode = 'login';
+    
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      // Check if already authenticated
+      if (localStorage.getItem(TOKEN_KEY)) {
+        window.location.href = 'dashboard.html';
+        return;
+      }
+      
+      // Set up event listeners
+      const form = document.getElementById('auth-form');
+      const toggleLink = document.getElementById('toggle-auth');
+      
+      form.addEventListener('submit', handleSubmit);
+      toggleLink.addEventListener('click', toggleAuthMode);
+    });
+    
+    // Toggle password visibility
+    function togglePassword() {
+      const passwordInput = document.getElementById('password');
+      const toggleBtn = document.querySelector('.password-toggle');
+      
+      if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        toggleBtn.textContent = '🙈';
+      } else {
+        passwordInput.type = 'password';
+        toggleBtn.textContent = '👁️';
+      }
+    }
+    
+    // Toggle between login and signup
+    function toggleAuthMode(e) {
+      e.preventDefault();
+      authMode = authMode === 'login' ? 'signup' : 'login';
+      updateUI();
+    }
+    
+    // Update UI based on mode
+    function updateUI() {
+      const title = document.getElementById('auth-title');
+      const subtitle = document.getElementById('auth-subtitle');
+      const nameGroup = document.getElementById('name-group');
+      const roleGroup = document.getElementById('role-group');
+      const submitBtn = document.getElementById('submit-btn');
+      const toggleText = document.getElementById('toggle-text');
+      const toggleLink = document.getElementById('toggle-auth');
+      
+      if (authMode === 'login') {
+        title.textContent = 'Welcome back';
+        subtitle.textContent = 'Sign in to access your portfolio';
+        nameGroup.classList.add('hidden');
+        roleGroup.classList.add('hidden');
+        submitBtn.textContent = 'Sign In';
+        toggleText.textContent = "Don't have an account? ";
+        toggleLink.textContent = 'Create one';
+      } else {
+        title.textContent = 'Create your account';
+        subtitle.textContent = 'Start your investment journey today';
+        nameGroup.classList.remove('hidden');
+        roleGroup.classList.remove('hidden');
+        submitBtn.textContent = 'Create Account';
+        toggleText.textContent = 'Already have an account? ';
+        toggleLink.textContent = 'Sign in';
+      }
+      clearAlert();
+    }
+    
+    // Handle form submission
+    async function handleSubmit(e) {
+      e.preventDefault();
+      
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      
+      // Validation
+      if (!email || !password) {
+        showError('Please fill in all fields');
+        return;
+      }
+      
+      if (authMode === 'login') {
+        await handleLogin(email, password);
+      } else {
+        const name = document.getElementById('name').value.trim();
+        const role = document.querySelector('input[name="role"]:checked')?.value || 'STAFF';
+        
+        if (!name) {
+          showError('Please enter your name');
+          return;
+        }
+        
+        await handleSignup(email, name, password, role);
+      }
+    }
+    
+    // Handle login
+    async function handleLogin(email, password) {
+      const submitBtn = document.getElementById('submit-btn');
+      submitBtn.textContent = 'Signing in...';
+      submitBtn.disabled = true;
+      
+      try {
+        const response = await fetch(`${API_BASE_URL}/auth/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok) {
+          localStorage.setItem(TOKEN_KEY, data.access_token);
+          showSuccess('Login successful! Redirecting...');
+          setTimeout(() => window.location.href = 'dashboard.html', 1000);
+        } else {
+          showError(data.detail || 'Invalid email or password');
+          submitBtn.textContent = 'Sign In';
+          submitBtn.disabled = false;
+        }
+      } catch (error) {
+        console.error('Login error:', error);
+        showError('Unable to connect to server. Please try again.');
+        submitBtn.textContent = 'Sign In';
+        submitBtn.disabled = false;
+      }
+    }
+    
+    // Handle signup
+    async function handleSignup(email, name, password, role) {
+      const submitBtn = document.getElementById('submit-btn');
+      submitBtn.textContent = 'Creating account...';
+      submitBtn.disabled = true;
+      
+      try {
+        const response = await fetch(`${API_BASE_URL}/auth/signup`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, name, password, role })
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok) {
+          showSuccess('Account created! Logging you in...');
+          setTimeout(() => handleLogin(email, password), 1000);
+        } else {
+          showError(data.detail || 'Unable to create account');
+          submitBtn.textContent = 'Create Account';
+          submitBtn.disabled = false;
+        }
+      } catch (error) {
+        console.error('Signup error:', error);
+        showError('Unable to connect to server. Please try again.');
+        submitBtn.textContent = 'Create Account';
+        submitBtn.disabled = false;
+      }
+    }
+    
+    // Show error message
+    function showError(message) {
+      const container = document.getElementById('alert-container');
+      container.innerHTML = `
+        <div class="alert alert-error">
+          ⚠️ ${message}
+        </div>
+      `;
+    }
+    
+    // Show success message
+    function showSuccess(message) {
+      const container = document.getElementById('alert-container');
+      container.innerHTML = `
+        <div class="alert alert-success">
+          ✓ ${message}
+        </div>
+      `;
+    }
+    
+    // Clear alert
+    function clearAlert() {
+      document.getElementById('alert-container').innerHTML = '';
+    }
+  </script>
+</body>
+</html>

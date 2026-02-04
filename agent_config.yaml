@@ -1,0 +1,94 @@
+# Code Quality Agent Configuration
+
+# General Settings
+general:
+  project_name: "Stock Analysis"
+  project_root: "."
+  output_dir: "quality_reports"
+  log_level: "INFO"  # DEBUG, INFO, WARNING, ERROR
+
+# Modules to Enable/Disable
+modules:
+  code_cleaner: true
+  vulnerability_checker: true
+  connection_tester: true
+  code_tester: true
+
+# Code Cleaner Settings
+code_cleaner:
+  enabled: true
+  format_with_black: true
+  sort_imports: true
+  remove_unused_imports: true
+  line_length: 100
+  exclude_dirs:
+    - "venv"
+    - ".venv"
+    - "env"
+    - "__pycache__"
+    - ".git"
+    - "node_modules"
+    - "quality_reports"
+  exclude_files:
+    - "*.pyc"
+    - "*.pyo"
+
+# Vulnerability Checker Settings
+vulnerability_checker:
+  enabled: true
+  run_bandit: true
+  run_safety: true
+  custom_security_checks: true
+  severity_threshold: "LOW"  # LOW, MEDIUM, HIGH, CRITICAL
+  exclude_dirs:
+    - "venv"
+    - ".venv"
+    - "tests"
+  bandit_config:
+    confidence_level: "LOW"
+    severity_level: "LOW"
+
+# Connection Tester Settings
+connection_tester:
+  enabled: true
+  test_database: true
+  test_api_endpoints: true
+  test_health_endpoints: true
+  test_authentication: true
+  api_base_url: "http://localhost:8000"
+  timeout: 10  # seconds
+  endpoints_to_test:
+    - path: "/"
+      method: "GET"
+      expected_status: 200
+    - path: "/health"
+      method: "GET"
+      expected_status: 200
+    - path: "/docs"
+      method: "GET"
+      expected_status: 200
+
+# Code Tester Settings
+code_tester:
+  enabled: true
+  run_pytest: true
+  run_pylint: true
+  run_flake8: true
+  generate_coverage: true
+  coverage_threshold: 70  # minimum percentage
+  test_directories:
+    - "backend"
+  pytest_args:
+    - "-v"
+    - "--tb=short"
+  pylint_threshold: 7.0  # minimum score out of 10
+
+# Report Settings
+reporting:
+  generate_html: true
+  generate_json: true
+  generate_console_summary: true
+  include_charts: true
+  open_html_after_run: true
+  save_history: true
+  max_history_reports: 10

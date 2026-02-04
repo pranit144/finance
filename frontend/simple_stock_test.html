@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stock Dashboard - Simple Test</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Arial', sans-serif;
+      background: #0a0e1a;
+      color: #fff;
+      padding: 20px;
+    }
+    h1 { color: #00f0ff; margin-bottom: 20px; }
+    .status { 
+      background: #1a1e2a; 
+      padding: 15px; 
+      border-radius: 8px; 
+      margin-bottom: 20px;
+      border: 1px solid #00f0ff;
+    }
+    .stocks-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+    }
+    .stock-card {
+      background: #1a1e2a;
+      border: 1px solid #00f0ff;
+      border-radius: 12px;
+      padding: 20px;
+      transition: transform 0.3s;
+    }
+    .stock-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 20px rgba(0, 240, 255, 0.5);
+    }
+    .symbol { font-size: 24px; font-weight: bold; color: #00f0ff; }
+    .name { font-size: 12px; color: #888; margin: 5px 0; }
+    .price { font-size: 32px; font-weight: bold; margin: 10px 0; }
+    .change { font-size: 16px; padding: 5px 10px; border-radius: 5px; display: inline-block; }
+    .positive { color: #39ff14; background: rgba(57, 255, 20, 0.1); }
+    .negative { color: #ff0055; background: rgba(255, 0, 85, 0.1); }
+    button {
+      background: #00f0ff;
+      color: #0a0e1a;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      margin: 5px;
+    }
+    button:hover { background: #39ff14; }
+  </style>
+</head>
+<body>
+  <h1>📈 Stock Dashboard - Direct API Test</h1>
+  
+  <div class="status" id="status">
+    <p>Click "Load Stocks" to fetch data from backend...</p>
+  </div>
+  
+  <div>
+    <button onclick="testDirectAPI()">Load Stocks (Direct API)</button>
+    <button onclick="showMockData()">Show Mock Data</button>
+  </div>
+  
+  <div class="stocks-grid" id="stocks-grid"></div>
+  
+  <script>
+    const API_URL = 'http://localhost:8000';
+    
+    function updateStatus(message, isError = false) {
+      const status = document.getElementById('status');
+      status.innerHTML = `<p style="color: ${isError ? '#ff0055' : '#00f0ff'}">${message}</p>`;
+      console.log(message);
+    }
+    
+    async function testDirectAPI() {
+      updateStatus('🔐 Step 1: Logging in...');
+      
+      try {
+        // Login first
+        const loginRes = await fetch(`${API_URL}/auth/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: 'admin@test.com',
+            password: 'SecurePass123!'
+          })
+        });
+        
+        if (!loginRes.ok) {
+          updateStatus('❌ Login failed! Status: ' + loginRes.status, true);
+          return;
+        }
+        
+        const loginData = await loginRes.json();
+        const token = loginData.access_token;
+        updateStatus('✅ Login successful! Token: ' + token.substring(0, 20) + '...');
+        
+        // Fetch stocks
+        updateStatus('📡 Step 2: Fetching stocks...');
+        
+        const stocksRes = await fetch(`${API_URL}/stocks/popular`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        
+        updateStatus(`📥 Response status: ${stocksRes.status}`);
+        
+        if (!stocksRes.ok) {
+          const error = await stocksRes.text();
+          updateStatus(`❌ Stocks fetch failed: ${error}`, true);
+          return;
+        }
+        
+        const data = await stocksRes.json();
+        updateStatus(`✅ Got ${data.count} stocks! Rendering...`);
+        
+        displayStocks(data.stocks);
+        
+      } catch (error) {
+        updateStatus(`❌ Error: ${error.message}`, true);
+        console.error('Full error:', error);
+      }
+    }
+    
+    function showMockData() {
+      updateStatus('📊 Showing mock data...');
+      const mockStocks = [
+        { symbol: 'AAPL', name: 'Apple Inc.', price: 259.48, change: 1.19, change_percent: 0.46, volume: 52000000 },
+        { symbol: 'GOOGL', name: 'Alphabet Inc.', price: 338.0, change: -0.24, change_percent: -0.07, volume: 28000000 },
+        { symbol: 'MSFT', name: 'Microsoft Corporation', price: 430.29, change: -3.21, change_percent: -0.74, volume: 31000000 },
+        { symbol: 'TSLA', name: 'Tesla, Inc.', price: 430.41, change: 13.84, change_percent: 3.32, volume: 95000000 },
+        { symbol: 'AMZN', name: 'Amazon.com, Inc.', price: 239.3, change: -2.44, change_percent: -1.01, volume: 42000000 }
+      ];
+      displayStocks(mockStocks);
+    }
+    
+    function displayStocks(stocks) {
+      const grid = document.getElementById('stocks-grid');
+      
+      grid.innerHTML = stocks.map(stock => {
+        const isPositive = stock.change >= 0;
+        const changeClass = isPositive ? 'positive' : 'negative';
+        const changeSymbol = isPositive ? '+' : '';
+        
+        return `
+          <div class="stock-card">
+            <div class="symbol">${stock.symbol}</div>
+            <div class="name">${stock.name}</div>
+            <div class="price">$${stock.price.toFixed(2)}</div>
+            <div class="change ${changeClass}">
+              ${changeSymbol}${stock.change_percent.toFixed(2)}% 
+              (${changeSymbol}$${Math.abs(stock.change).toFixed(2)})
+            </div>
+          </div>
+        `;
+      }).join('');
+      
+      updateStatus(`✅ Rendered ${stocks.length} stock cards!`);
+    }
+  </script>
+</body>
+</html>

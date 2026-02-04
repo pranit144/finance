@@ -1,0 +1,28 @@
+# Development Dependencies for Code Quality Agent
+# Install with: pip install -r requirements-dev.txt
+
+# Security & Vulnerability Scanning
+bandit>=1.7.5
+safety>=2.3.5
+
+# Code Formatting & Cleaning
+black>=23.12.0
+isort>=5.13.0
+autoflake>=2.2.1
+
+# Code Quality & Linting
+pylint>=3.0.3
+flake8>=7.0.0
+
+# Testing & Coverage
+pytest>=7.4.3
+pytest-cov>=4.1.0
+pytest-asyncio>=0.21.1
+
+# Configuration & Reporting
+pyyaml>=6.0.1
+jinja2>=3.1.2
+
+# HTTP Testing
+requests>=2.31.0
+httpx>=0.25.2

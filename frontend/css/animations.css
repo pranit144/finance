@@ -1,0 +1,177 @@
+/* Keyframe Animations */
+
+/* Fade In Up - Staggered element reveals */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Glow Pulse - Pulsing glow effect */
+@keyframes glowPulse {
+
+    0%,
+    100% {
+        box-shadow: var(--glow-cyan);
+    }
+
+    50% {
+        box-shadow: var(--glow-cyan-strong);
+    }
+}
+
+/* Gradient Shift - Animated background */
+@keyframes gradientShift {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* Float Particle - Floating geometric shapes */
+@keyframes floatParticle {
+
+    0%,
+    100% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+
+    25% {
+        transform: translate(10px, -10px) rotate(90deg);
+    }
+
+    50% {
+        transform: translate(0, -20px) rotate(180deg);
+    }
+
+    75% {
+        transform: translate(-10px, -10px) rotate(270deg);
+    }
+}
+
+/* Shake - Error animation */
+@keyframes shake {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    10%,
+    30%,
+    50%,
+    70%,
+    90% {
+        transform: translateX(-5px);
+    }
+
+    20%,
+    40%,
+    60%,
+    80% {
+        transform: translateX(5px);
+    }
+}
+
+/* Spin - Loading spinner */
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Slide In Right */
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Slide In Left */
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Scale In */
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Glow Expand - Button hover effect */
+@keyframes glowExpand {
+    from {
+        box-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
+    }
+
+    to {
+        box-shadow: 0 0 25px rgba(0, 240, 255, 0.6), 0 0 50px rgba(0, 240, 255, 0.3);
+    }
+}
+
+/* Utility Animation Classes */
+.animate-fadeInUp {
+    animation: fadeInUp var(--transition-smooth) ease-out forwards;
+}
+
+.animate-delay-1 {
+    animation-delay: 0.1s;
+}
+
+.animate-delay-2 {
+    animation-delay: 0.2s;
+}
+
+.animate-delay-3 {
+    animation-delay: 0.3s;
+}
+
+.animate-delay-4 {
+    animation-delay: 0.4s;
+}
+
+.animate-delay-5 {
+    animation-delay: 0.5s;
+}
+
+.animate-delay-6 {
+    animation-delay: 0.6s;
+}

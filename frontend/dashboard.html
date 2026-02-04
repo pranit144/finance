@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>STOCKLYZE - Dashboard</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf1 100%);
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Animated Gradient Blobs */
+    .gradient-blob {
+      position: fixed;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(0, 200, 180, 0.3) 0%, rgba(0, 150, 255, 0.2) 50%, transparent 70%);
+      border-radius: 50%;
+      filter: blur(80px);
+      animation: float 10s ease-in-out infinite;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .gradient-blob:nth-child(1) {
+      top: -150px;
+      right: -150px;
+    }
+
+    .gradient-blob:nth-child(2) {
+      bottom: -150px;
+      left: -150px;
+      animation-delay: 5s;
+      background: radial-gradient(circle, rgba(100, 200, 255, 0.3) 0%, rgba(0, 180, 200, 0.2) 50%, transparent 70%);
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translate(0, 0) scale(1);
+      }
+      50% {
+        transform: translate(30px, 30px) scale(1.05);
+      }
+    }
+
+    /* Header */
+    .header {
+      position: relative;
+      z-index: 10;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      padding: 20px 40px;
+      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 40px;
+    }
+
+    .logo-section {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .logo-icon {
+      width: 45px;
+      height: 45px;
+      background: linear-gradient(135deg, #00c896 0%, #00a8cc 100%);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      box-shadow: 0 4px 12px rgba(0, 200, 150, 0.3);
+    }
+
+    .logo-text {
+      font-size: 28px;
+      font-weight: 800;
+      color: #1a1a2e;
+      font-family: 'Poppins', sans-serif;
+      letter-spacing: -1px;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .refresh-btn {
+      padding: 12px 24px;
+      background: linear-gradient(135deg, #00c896 0%, #00a8cc 100%);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0, 200, 150, 0.3);
+      font-size: 14px;
+    }
+
+    .refresh-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 200, 150, 0.5);
+    }
+
+    .refresh-btn:active {
+      transform: translateY(0);
+    }
+
+    /* Profile Menu */
+    .profile-container {
+      position: relative;
+    }
+
+    .profile-btn {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #00c896 0%, #00a8cc 100%);
+      border: 3px solid white;
+      color: white;
+      font-size: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0, 200, 150, 0.3);
+    }
+
+    .profile-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 16px rgba(0, 200, 150, 0.5);
+    }
+
+    .profile-menu {
+      display: none;
+      position: absolute;
+      top: 60px;
+      right: 0;
+      background: white;
+      border-radius: 16px;
+      min-width: 200px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+      overflow: hidden;
+      z-index: 1000;
+    }
+
+    .profile-menu.active {
+      display: block;
+      animation: slideDown 0.3s ease;
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .profile-header {
+      padding: 15px 20px;
+      background: linear-gradient(135deg, #00c896 0%, #00a8cc 100%);
+      color: white;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .menu-item {
+      width: 100%;
+      padding: 14px 20px;
+      background: transparent;
+      border: none;
+      color: #2c3e50;
+      text-align: left;
+      cursor: pointer;
+      font-weight: 500;
+      transition: background 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+    }
+
+    .menu-item:hover {
+      background: #f5f7fa;
+    }
+
+    .menu-item.logout {
+      color: #e74c3c;
+      border-top: 1px solid #e8ecf1;
+    }
+
+    .menu-item.logout:hover {
+      background: #fee;
+    }
+
+    /* Main Content */
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 40px 40px;
+    }
+
+    .dashboard-header {
+      margin-bottom: 30px;
+    }
+
+    .page-title {
+      font-size: 36px;
+      font-weight: 800;
+      color: #1a1a2e;
+      margin-bottom: 10px;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: rgba(0, 200, 150, 0.1);
+      border: 2px solid #00c896;
+      border-radius: 50px;
+      color: #00c896;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      background: #00c896;
+      border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0.5;
+      }
+    }
+
+    /* Stock Cards Grid */
+    .stocks-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 24px;
+      margin-top: 30px;
+    }
+
+    .stock-card {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 20px;
+      padding: 28px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      transition: all 0.3s ease;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stock-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #00c896 0%, #00a8cc 100%);
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+
+    .stock-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 40px rgba(0, 200, 150, 0.2);
+    }
+
+    .stock-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .stock-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 20px;
+    }
+
+    .stock-symbol {
+      font-size: 28px;
+      font-weight: 800;
+      color: #1a1a2e;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .stock-trend-icon {
+      font-size: 24px;
+    }
+
+    .stock-name {
+      font-size: 13px;
+      color: #7f8c8d;
+      margin-bottom: 20px;
+      font-weight: 500;
+    }
+
+    .stock-price {
+      font-size: 40px;
+      font-weight: 800;
+      color: #1a1a2e;
+      margin-bottom: 12px;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .stock-change {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border-radius: 50px;
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    .stock-change.positive {
+      background: rgba(0, 200, 150, 0.15);
+      color: #00c896;
+    }
+
+    .stock-change.negative {
+      background: rgba(231, 76, 60, 0.15);
+      color: #e74c3c;
+    }
+
+    .stock-meta {
+      display: flex;
+      justify-content: space-between;
+      padding-top: 16px;
+      border-top: 2px solid #f5f7fa;
+    }
+
+    .meta-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .meta-label {
+      font-size: 11px;
+      color: #95a5a6;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 600;
+    }
+
+    .meta-value {
+      font-size: 14px;
+      color: #2c3e50;
+      font-weight: 600;
+    }
+
+    /* Loading State */
+    .loading {
+      text-align: center;
+      padding: 60px 20px;
+    }
+
+    .loading-spinner {
+      width: 50px;
+      height: 50px;
+      border: 4px solid #e8ecf1;
+      border-top-color: #00c896;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 20px;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .header {
+        padding: 15px 20px;
+      }
+
+      .container {
+        padding: 0 20px 20px;
+      }
+
+      .logo-text {
+        font-size: 22px;
+      }
+
+      .page-title {
+        font-size: 28px;
+      }
+
+      .stocks-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .refresh-btn {
+        padding: 10px 18px;
+        font-size: 13px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Animated Gradient Blobs -->
+  <div class="gradient-blob"></div>
+  <div class="gradient-blob"></div>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="logo-section">
+      <div class="logo-icon">📈</div>
+      <div class="logo-text">STOCKLYZE</div>
+    </div>
+
+    <div class="header-actions">
+      <button class="refresh-btn" onclick="loadStocks()">
+        🔄 Refresh Data
+      </button>
+
+      <div class="profile-container">
+        <button class="profile-btn" onclick="toggleProfileMenu()" id="profile-btn">
+          👤
+        </button>
+
+        <div class="profile-menu" id="profile-menu">
+          <div class="profile-header">
+            Admin User
+          </div>
+          <button class="menu-item" onclick="window.location.href='portfolio.html'">
+            💼 My Portfolio
+          </button>
+          <button class="menu-item logout" onclick="logout()">
+            🚪 Logout
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container">
+    <div class="dashboard-header">
+      <h1 class="page-title">Stock Dashboard</h1>
+      <div class="status-badge" id="status-badge">
+        <span class="status-dot"></span>
+        <span id="status">Initializing...</span>
+      </div>
+    </div>
+
+    <div class="stocks-grid" id="stocks-grid">
+      <!-- Stock cards will be inserted here -->
+    </div>
+  </main>
+
+  <script>
+    console.log('🚀 Dashboard loaded!');
+    
+    const API_BASE_URL = 'http://localhost:8000';
+    const TOKEN_KEY = 'stock_analysis_token';
+    
+    const MOCK_STOCKS = [
+      { symbol: 'AAPL', name: 'Apple Inc.', price: 259.48, change: 1.19, change_percent: 0.46, volume: 52000000, market_cap: 3980000000000 },
+      { symbol: 'GOOGL', name: 'Alphabet Inc.', price: 338.0, change: -0.24, change_percent: -0.07, volume: 28000000, market_cap: 2100000000000 },
+      { symbol: 'MSFT', name: 'Microsoft Corporation', price: 430.29, change: -3.21, change_percent: -0.74, volume: 31000000, market_cap: 3200000000000 },
+      { symbol: 'TSLA', name: 'Tesla, Inc.', price: 430.41, change: 13.84, change_percent: 3.32, volume: 95000000, market_cap: 1370000000000 },
+      { symbol: 'AMZN', name: 'Amazon.com, Inc.', price: 239.3, change: -2.44, change_percent: -1.01, volume: 42000000, market_cap: 2480000000000 },
+      { symbol: 'META', name: 'Meta Platforms, Inc.', price: 612.75, change: 8.42, change_percent: 1.39, volume: 18500000, market_cap: 1560000000000 }
+    ];
+    
+    // Check authentication
+    if (!localStorage.getItem(TOKEN_KEY)) {
+      window.location.href = 'index.html';
+    }
+    
+    function displayStocks(stocks) {
+      console.log('📊 Displaying stocks:', stocks);
+      const grid = document.getElementById('stocks-grid');
+      
+      grid.innerHTML = stocks.map(stock => {
+        const isPositive = stock.change >= 0;
+        const changeClass = isPositive ? 'positive' : 'negative';
+        const changeSymbol = isPositive ? '+' : '';
+        const trendIcon = isPositive ? '📈' : '📉';
+        
+        return `
+          <div class="stock-card">
+            <div class="stock-header">
+              <div class="stock-symbol">${stock.symbol}</div>
+              <div class="stock-trend-icon">${trendIcon}</div>
+            </div>
+            <div class="stock-name">${stock.name}</div>
+            <div class="stock-price">$${stock.price.toFixed(2)}</div>
+            <div class="stock-change ${changeClass}">
+              ${changeSymbol}${stock.change_percent.toFixed(2)}% 
+              (${changeSymbol}$${Math.abs(stock.change).toFixed(2)})
+            </div>
+            <div class="stock-meta">
+              <div class="meta-item">
+                <span class="meta-label">Volume</span>
+                <span class="meta-value">${formatVolume(stock.volume)}</span>
+              </div>
+              <div class="meta-item">
+                <span class="meta-label">Market Cap</span>
+                <span class="meta-value">${formatMarketCap(stock.market_cap || 0)}</span>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+      
+      console.log('✅ Cards rendered!');
+    }
+    
+    function formatVolume(volume) {
+      if (volume >= 1000000000) return (volume / 1000000000).toFixed(2) + 'B';
+      if (volume >= 1000000) return (volume / 1000000).toFixed(2) + 'M';
+      if (volume >= 1000) return (volume / 1000).toFixed(2) + 'K';
+      return volume.toString();
+    }
+    
+    function formatMarketCap(cap) {
+      if (cap >= 1000000000000) return '$' + (cap / 1000000000000).toFixed(2) + 'T';
+      if (cap >= 1000000000) return '$' + (cap / 1000000000).toFixed(2) + 'B';
+      if (cap >= 1000000) return '$' + (cap / 1000000).toFixed(2) + 'M';
+      return '$' + cap.toString();
+    }
+    
+    async function loadStocks() {
+      const statusEl = document.getElementById('status');
+      statusEl.textContent = 'Fetching live data...';
+      
+      try {
+        const token = localStorage.getItem(TOKEN_KEY);
+        
+        const stocksRes = await fetch(`${API_BASE_URL}/stocks/popular`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        
+        if (!stocksRes.ok) {
+          throw new Error('Failed to fetch stocks');
+        }
+        
+        const data = await stocksRes.json();
+        displayStocks(data.stocks);
+        statusEl.textContent = `Live data - Updated at ${new Date().toLocaleTimeString()}`;
+      } catch (error) {
+        console.error('Error:', error);
+        statusEl.textContent = 'Error loading live data - showing cached';
+        displayStocks(MOCK_STOCKS);
+      }
+    }
+    
+    function toggleProfileMenu() {
+      const menu = document.getElementById('profile-menu');
+      menu.classList.toggle('active');
+    }
+    
+    // Close menu when clicking outside
+    document.addEventListener('click', function(event) {
+      const menu = document.getElementById('profile-menu');
+      const btn = document.getElementById('profile-btn');
+      if (!btn.contains(event.target) && !menu.contains(event.target)) {
+        menu.classList.remove('active');
+      }
+    });
+    
+    function logout() {
+      localStorage.clear();
+      window.location.href = 'index.html';
+    }
+    
+    // Initialize
+    console.log('📊 Showing mock data...');
+    displayStocks(MOCK_STOCKS);
+    document.getElementById('status').textContent = 'Cached data - Click refresh for live prices';
+    
+    // Load real data after 1 second
+    setTimeout(loadStocks, 1000);
+  </script>
+</body>
+</html>
