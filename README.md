@@ -1,5 +1,5 @@
 ---
-title: Crop Recommendation NPK
+title: Finance
 emoji: 🏢
 colorFrom: yellow
 colorTo: pink
