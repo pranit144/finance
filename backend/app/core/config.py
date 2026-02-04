@@ -10,10 +10,10 @@ class Settings(BaseSettings):
     """Application settings loaded from environment variables."""
     
     # Database
-    DATABASE_URL: str
+    DATABASE_URL: str = "sqlite:///./stock_analysis.db"
     
     # JWT Settings
-    SECRET_KEY: str
+    SECRET_KEY: str = "development_secret_key_change_in_production"
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 43200  # 30 days
     
