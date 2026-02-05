@@ -42,7 +42,9 @@ class StockService:
                 return cached_data
         
         try:
-            logger.info(f"Fetching fresh data for {symbol}")
+            start_time = datetime.now()
+            logger.info(f"🔍 Fetching fresh data for {symbol}...")
+            
             stock = yf.Ticker(symbol)
             
             current_price = None
@@ -52,27 +54,33 @@ class StockService:
             
             # Use fast_info for quicker response
             try:
+                t0 = datetime.now()
                 fast_info = stock.fast_info
                 current_price = fast_info.get('lastPrice') or fast_info.get('regularMarketPrice')
                 previous_close = fast_info.get('previousClose')
                 volume = fast_info.get('lastVolume') or fast_info.get('volume') or 0
                 market_cap = fast_info.get('marketCap') or 0
-            except:
+                logger.debug(f"⏱️ Fast info fetch for {symbol} took {(datetime.now()-t0).total_seconds():.3f}s")
+            except Exception as e:
+                logger.warning(f"Fast info failed for {symbol}: {e}")
                 pass
                 
             # Fallback to regular info if fast_info failed or missing data
             if not current_price:
                 try:
+                    t1 = datetime.now()
                     info = stock.info
                     current_price = info.get('currentPrice') or info.get('regularMarketPrice')
                     previous_close = info.get('previousClose') or info.get('regularMarketPreviousClose')
                     volume = info.get('volume') or info.get('regularMarketVolume') or 0
                     market_cap = info.get('marketCap') or 0
-                except:
+                    logger.debug(f"⏱️ Regular info fetch for {symbol} took {(datetime.now()-t1).total_seconds():.3f}s")
+                except Exception as e:
+                    logger.warning(f"Regular info failed for {symbol}: {e}")
                     pass
             
             if not current_price:
-                logger.warning(f"Missing price data for {symbol}")
+                logger.warning(f"❌ Missing price data for {symbol}")
                 return None
                 
             # Use previous close as current if missing (fallback)
@@ -103,11 +111,13 @@ class StockService:
             
             if include_sparkline:
                 try:
+                    t2 = datetime.now()
                     # Fetch 1 month history for sparkline
                     hist = stock.history(period="1mo")
                     if not hist.empty:
                         # Normalize data for sparkline (list of floats)
                         result['sparkline'] = [round(float(p), 2) for p in hist['Close'].tolist()]
+                    logger.debug(f"⏱️ Sparkline fetch for {symbol} took {(datetime.now()-t2).total_seconds():.3f}s")
                 except Exception as e:
                     logger.error(f"Error fetching sparkline for {symbol}: {e}")
                     result['sparkline'] = []
@@ -115,10 +125,12 @@ class StockService:
             # Cache the result
             StockService._cache[cache_key] = (result, datetime.now())
             
+            elapsed = (datetime.now() - start_time).total_seconds()
+            logger.info(f"✅ Data for {symbol} ready in {elapsed:.3f}s")
             return result
             
         except Exception as e:
-            logger.error(f"Error fetching stock data for {symbol}: {e}")
+            logger.error(f"❌ Error fetching stock data for {symbol}: {e}")
             return None
     
     @staticmethod
