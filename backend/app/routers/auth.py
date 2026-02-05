@@ -54,13 +54,13 @@ async def signup(user_data: UserSignup, db: Session = Depends(get_db)):
         db.add(new_user)
         db.commit()
         db.refresh(new_user)
+        
         return new_user
     except Exception as e:
         db.rollback()
-        import traceback
         raise HTTPException(
-            status_code=500,
-            detail=f"Database error: {str(e)} | Trace: {traceback.format_exc()[-200:]}"
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Database error: {str(e)}"
         )
 
 

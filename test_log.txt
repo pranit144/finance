@@ -1,16 +1,40 @@
-=== LOG START ===
-
-🚀 Testing Health...
-   Status: 200
-   Response: {
-  "status": "healthy",
-  "api": "operational",
-  "database": "connected (tables: portfolio, users)",
-  "sqlite_path": "sqlite:///./stock_analysis_prod.db"
-}
+=== FULL DEPLOYMENT TEST ===
 
 🚀 Testing Signup...
-   Status: 500
+   Status: 201
    Response: {
-  "detail": "Database error: password cannot be longer than 72 bytes, truncate manually if necessary (e.g. my_password[:72]) | Trace: hecksum\n    hash = _bcrypt.hashpw(secret, config)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nValueError: password cannot be longer than 72 bytes, truncate manually if necessary (e.g. my_password[:72])\n"
+  "id": "c89191c3-7289-45ae-90a9-43d832720d33",
+  "email": "user_1770316621@test.com",
+  "name": "Tester",
+  "role": "STAFF",
+  "is_active": true,
+  "created_at": "2026-02-05T18:37:02.441606"
 }
+
+🚀 Testing Login...
+   Status: 200
+   Response: {
+  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjODkxOTFjMy03Mjg5LTQ1YWUtOTBhOS00M2Q4MzI3MjBkMzMiLCJleHAiOjE3NzI5MDg2MjN9.m_9CPT1n40nmBAAx72S1mVW2h3GvTbPed8ANIpCYk1M",
+  "token_type": "bearer"
+}
+✅ Login successful!
+
+🚀 Testing Stock Quote (RELIANCE.NS)...
+   Status: 200
+   Response: {
+  "symbol": "RELIANCE.NS",
+  "name": "Reliance Industries Limited",
+  "price": 1443.4,
+  "change": -13.4,
+  "change_percent": -0.92,
+  "volume": 11761639,
+  "market_cap": 19532771331741,
+  "pe_ratio": 23.477554,
+  "updated_at": "2026-02-05T18:37:05.745200"
+}
+
+🚀 Testing Get Portfolio...
+   Status: 200
+   Response: []
+
+✨ ALL CORE TESTS PASSED! ✨
