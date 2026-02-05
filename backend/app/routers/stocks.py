@@ -17,6 +17,7 @@ router = APIRouter(prefix="/stocks", tags=["Stocks"])
 @router.get("/quote/{symbol}")
 async def get_stock_quote(
     symbol: str,
+    sparkline: bool = False,
     current_user: User = Depends(get_current_user)
 ):
     """
@@ -26,11 +27,12 @@ async def get_stock_quote(
     
     Args:
         symbol: Stock ticker symbol (e.g., AAPL, GOOGL)
+        sparkline: Whether to include 1mo price history
         
     Returns:
         Stock quote with price, change, volume, etc.
     """
-    quote = stock_service.get_stock_quote(symbol)
+    quote = stock_service.get_stock_quote(symbol, include_sparkline=sparkline)
     
     if not quote:
         raise HTTPException(
