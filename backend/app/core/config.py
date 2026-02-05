@@ -9,13 +9,8 @@ from typing import Optional
 class Settings(BaseSettings):
     """Application settings loaded from environment variables."""
     
-    # Database
-    # Use /app/data for Docker persistence (if volume mounted) or just writable area
-    # Fallback to local relative path for development
-    # Database
-    # Use /app/data for Docker persistence (if volume mounted) or just writable area
-    # Fallback to local relative path for development
-    DATABASE_URL: str = "sqlite:///data/stock_analysis.db"
+    # Database: Use local sqlite file in the app directory
+    DATABASE_URL: str = "sqlite:///./stock_analysis_prod.db"
     
     # JWT Settings
     SECRET_KEY: str = "development_secret_key_change_in_production"

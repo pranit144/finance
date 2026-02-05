@@ -115,9 +115,19 @@ if os.path.exists(frontend_path):
 
 @app.get("/health")
 async def health_check():
-    """Health check endpoint."""
+    """Health check endpoint with database verification."""
+    db_status = "unknown"
+    try:
+        from sqlalchemy import inspect
+        inspector = inspect(engine)
+        tables = inspector.get_table_names()
+        db_status = f"connected (tables: {', '.join(tables)})"
+    except Exception as e:
+        db_status = f"error: {str(e)}"
+        
     return {
         "status": "healthy",
         "api": "operational",
-        "database": "supabase"
+        "database": db_status,
+        "sqlite_path": str(engine.url)
     }
