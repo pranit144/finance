@@ -1,23 +1,16 @@
 {
   "version": 2,
-  "builds": [
+  "name": "stocklyze-frontend",
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "rewrites": [
     {
-      "src": "backend/app/main.py",
-      "use": "@vercel/python"
+      "source": "/(css|js|images|assets)/(.*)",
+      "destination": "/frontend/$1/$2"
     },
     {
-      "src": "frontend/**",
-      "use": "@vercel/static"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "backend/app/main.py"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/frontend/$1"
+      "source": "/(.*)",
+      "destination": "/frontend/$1"
     }
   ]
 }
