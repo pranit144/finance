@@ -13,38 +13,31 @@ from .config import settings
 from .database import get_db
 from ..models.user import User
 
-# Password hashing context
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+import bcrypt
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 
 # HTTP Bearer token scheme
 security = HTTPBearer()
 
-
 def hash_password(password: str) -> str:
-    """
-    Hash a plain text password using bcrypt.
-    
-    Args:
-        password: Plain text password
-        
-    Returns:
-        Hashed password string
-    """
-    return pwd_context.hash(password)
+    """Hash a plain text password using bcrypt."""
+    # Bcrypt has a 72-byte limit. We'll truncate just in case, though 
+    # passwords shouldn't be that long.
+    pwd_bytes = password.encode('utf-8')[:72]
+    salt = bcrypt.gensalt()
+    hashed = bcrypt.hashpw(pwd_bytes, salt)
+    return hashed.decode('utf-8')
 
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
-    """
-    Verify a plain text password against a hashed password.
-    
-    Args:
-        plain_password: Plain text password to verify
-        hashed_password: Hashed password from database
-        
-    Returns:
-        True if password matches, False otherwise
-    """
-    return pwd_context.verify(plain_password, hashed_password)
+    """Verify a plain text password against a hashed password."""
+    try:
+        return bcrypt.checkpw(
+            plain_password.encode('utf-8')[:72],
+            hashed_password.encode('utf-8')
+        )
+    except Exception:
+        return False
 
 
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None) -> str:

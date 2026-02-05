@@ -1,0 +1,16 @@
+=== LOG START ===
+
+🚀 Testing Health...
+   Status: 200
+   Response: {
+  "status": "healthy",
+  "api": "operational",
+  "database": "connected (tables: portfolio, users)",
+  "sqlite_path": "sqlite:///./stock_analysis_prod.db"
+}
+
+🚀 Testing Signup...
+   Status: 500
+   Response: {
+  "detail": "Database error: password cannot be longer than 72 bytes, truncate manually if necessary (e.g. my_password[:72]) | Trace: hecksum\n    hash = _bcrypt.hashpw(secret, config)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nValueError: password cannot be longer than 72 bytes, truncate manually if necessary (e.g. my_password[:72])\n"
+}

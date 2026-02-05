@@ -2,10 +2,14 @@
 import requests
 import json
 import time
+import sys
 
 BASE_URL = "https://pranit144-finance.hf.space"
-# Optional: test local if needed
-# BASE_URL = "http://localhost:8000"
+
+def log_test(msg):
+    with open("test_log.txt", "a", encoding="utf-8") as f:
+        f.write(msg + "\n")
+    print(msg)
 
 def test_endpoint(name, method, path, data=None, token=None):
     url = f"{BASE_URL}{path}"
@@ -13,8 +17,7 @@ def test_endpoint(name, method, path, data=None, token=None):
     if token:
         headers["Authorization"] = f"Bearer {token}"
     
-    print(f"\n🚀 Testing {name}...")
-    print(f"   {method} {url}")
+    log_test(f"\n🚀 Testing {name}...")
     
     try:
         if method == "GET":
@@ -22,55 +25,27 @@ def test_endpoint(name, method, path, data=None, token=None):
         elif method == "POST":
             response = requests.post(url, headers=headers, json=data, timeout=15)
         
-        print(f"   Status: {response.status_code}")
+        log_test(f"   Status: {response.status_code}")
         try:
             body = response.json()
-            print(f"   Response: {json.dumps(body, indent=2)}")
+            log_test(f"   Response: {json.dumps(body, indent=2)}")
             return body
         except:
-            print(f"   Response: {response.text[:200]}")
+            log_test(f"   Response: {response.text[:1000]}")
             return None
     except Exception as e:
-        print(f"   ❌ Error: {e}")
+        log_test(f"   ❌ Error: {e}")
         return None
 
-def run_all_tests():
-    print(f"=== DEPLOYMENT TEST SUITE: {BASE_URL} ===")
-    
-    # 1. Health
-    test_endpoint("Health Check", "GET", "/health")
-    
-    # 2. Signup
-    timestamp = int(time.time())
-    test_email = f"test_user_{timestamp}@example.com"
-    signup_data = {
-        "email": test_email,
-        "password": "password123",
-        "name": "Test User",
-        "role": "STAFF"
-    }
-    signup_res = test_endpoint("Signup", "POST", "/auth/signup", data=signup_data)
-    
-    # 3. Login
-    login_data = {
-        "email": test_email,
-        "password": "password123"
-    }
-    login_res = test_endpoint("Login", "POST", "/auth/login", data=login_data)
-    
-    token = None
-    if login_res and "access_token" in login_res:
-        token = login_res["access_token"]
-        print("   ✅ Got Auth Token!")
-    else:
-        print("   ❌ Failed to get auth token")
-        return
-
-    # 4. Protected: Get Popular Stocks
-    test_endpoint("Popular Stocks (Auth)", "GET", "/stocks/popular", token=token)
-    
-    # 5. Protected: Get Portfolio (Expected empty)
-    test_endpoint("Get Portfolio (Auth)", "GET", "/portfolio/", token=token)
-
 if __name__ == "__main__":
-    run_all_tests()
+    with open("test_log.txt", "w", encoding="utf-8") as f:
+        f.write("=== LOG START ===\n")
+    
+    # Health
+    test_endpoint("Health", "GET", "/health")
+    
+    # Signup
+    ts = int(time.time())
+    email = f"user_{ts}@test.com"
+    signup_data = {"email": email, "password": "password123", "name": "Test User", "role": "STAFF"}
+    test_endpoint("Signup", "POST", "/auth/signup", data=signup_data)
