@@ -43,18 +43,25 @@ async def signup(user_data: UserSignup, db: Session = Depends(get_db)):
         )
     
     # Create new user
-    new_user = User(
-        email=user_data.email,
-        name=user_data.name,
-        password_hash=hash_password(user_data.password),
-        role=UserRole(user_data.role)
-    )
-    
-    db.add(new_user)
-    db.commit()
-    db.refresh(new_user)
-    
-    return new_user
+    try:
+        new_user = User(
+            email=user_data.email,
+            name=user_data.name,
+            password_hash=hash_password(user_data.password),
+            role=UserRole(user_data.role)
+        )
+        
+        db.add(new_user)
+        db.commit()
+        db.refresh(new_user)
+        return new_user
+    except Exception as e:
+        db.rollback()
+        import traceback
+        raise HTTPException(
+            status_code=500,
+            detail=f"Database error: {str(e)} | Trace: {traceback.format_exc()[-200:]}"
+        )
 
 
 @router.post("/login", response_model=Token)
