@@ -1,0 +1,128 @@
+/* Navbar Styles */
+.header {
+    background: rgba(255, 255, 255, 0.8);
+    padding: 16px 32px;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(229, 231, 235, 0.5);
+}
+
+.header-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+}
+
+.brand-icon {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, #00b4a6, #00d4c4);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    color: white;
+    box-shadow: 0 4px 12px rgba(0, 180, 166, 0.2);
+}
+
+.brand-name {
+    font-size: 22px;
+    font-weight: 700;
+    background: linear-gradient(135deg, #00b4a6, #00d4c4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: -0.5px;
+}
+
+.nav {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.nav-link {
+    padding: 10px 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    color: #6b7280;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    font-size: 14px;
+}
+
+.nav-link:hover {
+    background: rgba(0, 180, 166, 0.05);
+    color: #00b4a6;
+}
+
+.nav-link.active {
+    background: rgba(0, 180, 166, 0.1);
+    color: #00b4a6;
+}
+
+.profile-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    border: 1px solid #e5e7eb;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-left: 8px;
+}
+
+.profile-btn:hover {
+    background: #f9fafb;
+    border-color: #d1d5db;
+}
+
+.auth-buttons {
+    display: flex;
+    gap: 12px;
+}
+
+.btn-login {
+    padding: 8px 16px;
+    color: #6b7280;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.btn-login:hover {
+    color: #1a2332;
+}
+
+.btn-signup {
+    padding: 8px 20px;
+    background: #00b4a6;
+    color: white;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.2s;
+    box-shadow: 0 4px 12px rgba(0, 180, 166, 0.2);
+}
+
+.btn-signup:hover {
+    background: #00a093;
+    transform: translateY(-1px);
+}
