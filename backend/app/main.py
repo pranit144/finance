@@ -129,5 +129,6 @@ async def health_check():
         "status": "healthy",
         "api": "operational",
         "database": db_status,
-        "sqlite_path": str(engine.url)
+        "sqlite_path": str(engine.url),
+        "version": "1.0.2-bcrypt-fix"
     }
