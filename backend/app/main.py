@@ -2,7 +2,7 @@ from fastapi import FastAPI, Request
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
-from .core.database import init_supabase, engine, Base
+from .core.database import engine, Base
 from .routers import auth, stocks, portfolio
 from .models import user, portfolio as portfolio_model
 import os
@@ -62,10 +62,7 @@ async def startup_event():
     """Initialize database and Create Tables if not exist."""
     print("🔄 Initializing Database...")
     
-    # 1. Supabase Client (if used)
-    init_supabase()
-    
-    # 2. SQLAlchemy (SQLite/Postgres) - Create Tables
+    # SQLAlchemy (SQLite/Postgres) - Create Tables
     try:
         print("🔨 Creating database tables...")
         # This will create tables for all models registered with Base (User, Portfolio)
