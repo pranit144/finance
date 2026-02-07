@@ -7,11 +7,28 @@ from typing import List
 import csv
 import os
 from ..services.stock_service import stock_service
+from ..services.ai_service import ai_service
 from ..core.security import get_current_user
 from ..models.user import User
 from ..schemas.portfolio import NSEStock
 
 router = APIRouter(prefix="/stocks", tags=["Stocks"])
+
+
+@router.get("/analyze/{symbol}")
+async def analyze_stock(
+    symbol: str,
+    current_user: User = Depends(get_current_user)
+):
+    """
+    Get AI-powered detailed financial analysis for a stock symbol.
+    
+    **Requires authentication.**
+    """
+    analysis = ai_service.get_stock_analysis(symbol)
+    if not analysis:
+        raise HTTPException(status_code=404, detail="Analysis failed")
+    return {"symbol": symbol, "analysis": analysis}
 
 
 @router.get("/quote/{symbol}")

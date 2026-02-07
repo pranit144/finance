@@ -10,3 +10,8 @@ python-multipart==0.0.6
 yfinance
 pydantic[email]
 supabase
+phidata
+groq
+duckduckgo-search
+pandas
+python-dotenv

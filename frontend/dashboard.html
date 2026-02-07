@@ -248,8 +248,22 @@
     </div>
   </main>
 
+  <!-- AI Analysis Modal -->
+  <div class="modal-overlay" id="ai-modal">
+    <div class="modal-content" style="max-width: 800px; max-height: 80vh; overflow-y: auto;">
+      <span class="close-modal" onclick="closeAI()">×</span>
+      <h2 id="ai-title" style="margin-bottom: 24px; font-family: 'Syne', sans-serif; letter-spacing: -1px;">AI Market Analyst</h2>
+      <div id="ai-content" class="ai-report-body" style="line-height: 1.8; color: var(--text-main);">
+        <div class="loading-state" style="text-align: center; padding: 40px;">
+          <div style="width: 30px; height: 30px; border: 2px solid #f1f5f9; border-top-color: var(--primary); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 16px;"></div>
+          <p style="color: var(--text-dim);">Generating detailed financial report...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script>
-    const API_BASE_URL = 'https://pranit144-finance.hf.space';
+    const API_BASE_URL = ''; // Uses relative paths for local development
     const TOKEN_KEY = 'stock_analysis_token';
     
     const MOCK_STOCKS = [
@@ -324,7 +338,7 @@
           <div class="stock-card glass-card">
             <div class="stock-header">
               <div class="stock-symbol">${stock.symbol}</div>
-              <div class="stock-trend-icon">${isUp ? '📈' : '📉'}</div>
+              <button onclick="analyzeStock('${stock.symbol}')" style="background: var(--primary-glow); border: 1px solid var(--primary); color: var(--primary-dark); padding: 4px 10px; border-radius: 8px; font-size: 11px; cursor: pointer; font-weight: 700;">AI ANALYZE</button>
             </div>
             <div class="stock-name">${stock.name || 'Asset'}</div>
             <div class="stock-price">$${(stock.price || 0).toLocaleString(undefined, {minimumFractionDigits: 2})}</div>
@@ -346,6 +360,45 @@
       }).join('');
     }
 
+    async function analyzeStock(symbol) {
+      const modal = document.getElementById('ai-modal');
+      const title = document.getElementById('ai-title');
+      const content = document.getElementById('ai-content');
+      
+      title.textContent = `AI Analysis: ${symbol}`;
+      content.innerHTML = `
+        <div class="loading-state" style="text-align: center; padding: 40px;">
+          <div style="width: 30px; height: 30px; border: 2px solid #f1f5f9; border-top-color: var(--primary); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 16px;"></div>
+          <p style="color: var(--text-dim);">Researching ${symbol} ratios and news...</p>
+        </div>
+      `;
+      modal.classList.add('visible');
+
+      try {
+        const token = localStorage.getItem(TOKEN_KEY);
+        const res = await fetch(`${API_BASE_URL}/stocks/analyze/${symbol}`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const data = await res.json();
+        
+        if (data.analysis) {
+          // Simplistic markdown-ish conversion for the report
+          content.innerHTML = data.analysis
+            .replace(/### (.*)/g, '<h3 style="margin: 20px 0 10px; color: var(--primary-dark);">$1</h3>')
+            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+            .replace(/\n/g, '<br>');
+        } else {
+          content.innerHTML = `<p style="color: var(--error);">Analysis failed. Please try again later.</p>`;
+        }
+      } catch (e) {
+        content.innerHTML = `<p style="color: var(--error);">Error connecting to AI service. Ensure backend is running locally.</p>`;
+      }
+    }
+
+    function closeAI() {
+      document.getElementById('ai-modal').classList.remove('visible');
+    }
+
     function formatNum(v) {
       if (v >= 1e9) return (v / 1e9).toFixed(1) + 'B';
       if (v >= 1e6) return (v / 1e6).toFixed(1) + 'M';
@@ -360,6 +413,11 @@
 
     function logout() { localStorage.removeItem(TOKEN_KEY); window.location.href = 'index.html'; }
   </script>
-  <style> @keyframes spin { to { transform: rotate(360deg); } } </style>
+  <style> 
+    @keyframes spin { to { transform: rotate(360deg); } } 
+    .modal-overlay.visible { display: flex !important; }
+    .ai-report-body h3 { font-family: 'Syne', sans-serif; font-size: 1.2rem; }
+    .ai-report-body strong { color: var(--text-main); }
+  </style>
 </body>
 </html>
