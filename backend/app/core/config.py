@@ -27,9 +27,15 @@ class Settings(BaseSettings):
     # Groq API
     GROQ_API_KEY: str = ""
     
+    # Supabase (Optional for local, but present in .env)
+    SUPABASE_URL: Optional[str] = None
+    SUPABASE_KEY: Optional[str] = None
+    SUPABASE_SERVICE_KEY: Optional[str] = None
+    
     class Config:
         env_file = ".env"
         case_sensitive = True
+        extra = "ignore"
 
 
 # Global settings instance
