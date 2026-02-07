@@ -1,0 +1,18 @@
+# Hugging Face Ignore File
+# These files will stay on GitHub but won't be synced to the Hugging Face Space
+# to keep the deployment faster and cleaner.
+
+.github/
+.vscode/
+.agent/
+.env*
+.gitignore
+quality_reports/
+*test*
+check_db.py
+code_quality_agent.py
+keep_alive.py
+Ticker_List_NSE_India.csv
+stock_analysis.db
+*.pyc
+__pycache__/
