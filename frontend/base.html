@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STOCKLYZE - Master Base</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    
+    <!-- Global CSS Imports -->
+    <link rel="stylesheet" href="css/style.css">
+    
+    <style>
+        /* This is a helper template - not meant to be viewed directly as a page usually */
+        .template-info {
+            max-width: 800px;
+            margin: 100px auto;
+            padding: 40px;
+            text-align: center;
+            color: var(--text-main);
+        }
+        .code-block {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: left;
+            margin-top: 20px;
+            font-family: monospace;
+            color: var(--primary-dark);
+            border: 1px solid var(--border-glass);
+        }
+    </style>
+</head>
+<body>
+    <!-- 
+        The Background Blobs and Navbar are automatically injected 
+        by js/base.js to ensure consistency across all pages.
+    -->
+
+    <main class="template-info glass-card">
+        <h1 style="font-family: 'Syne', sans-serif; font-size: 2.5rem; margin-bottom: 1rem;">
+            STOCK<span style="color:var(--primary)">LYZE</span> Master Base
+        </h1>
+        <p style="color: var(--text-dim); margin-bottom: 2rem;">
+            This file defines the core styles and shared layout components.
+            To create a new page, use the following structure:
+        </p>
+        
+        <div class="code-block">
+            &lt;!-- Include in &lt;head&gt; --&gt;<br>
+            &lt;link rel="stylesheet" href="css/style.css"&gt;<br><br>
+            &lt;!-- Include at end of &lt;body&gt; --&gt;<br>
+            &lt;script src="js/base.js"&gt;&lt;/script&gt;
+        </div>
+    </main>
+
+    <!-- Global JS Engine -->
+    <script src="js/base.js"></script>
+</body>
+</html>
