@@ -1,11 +1,14 @@
-name: Sync to Hugging Face
+name: Sync & Keep Alive
 on:
   push:
     branches: [main]
+  schedule:
+    - cron: '0 */12 * * *'  # Runs every 12 hours
   workflow_dispatch:
 
 jobs:
   sync:
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
