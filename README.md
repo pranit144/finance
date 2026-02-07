@@ -1,8 +1,8 @@
 ---
 title: Stocklyze - Professional Portfolio Analytics
 emoji: 📈
-colorFrom: teal
-colorTo: blue
+colorFrom: blue
+colorTo: indigo
 sdk: docker
 pinned: false
 ---
